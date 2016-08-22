@@ -22,11 +22,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
 public class PicMonActivity extends Activity 
 		implements SurfaceHolder.Callback, Camera.AutoFocusCallback {
@@ -59,7 +62,28 @@ public class PicMonActivity extends Activity
         bis = null;
         inShutter = false;
         setContentView(R.layout.picmon);
+
+        Button button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (myCamera != null) {
+                    shutter();
+                }
+            }
+        });
+
     }
+    public boolean  onKeyDown  (int keyCode, KeyEvent event){
+        switch( keyCode ){
+            case KeyEvent.KEYCODE_VOLUME_UP:
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+            case KeyEvent.KEYCODE_CAMERA:
+                shutter();
+        }
+        return true;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -191,7 +215,7 @@ public class PicMonActivity extends Activity
     public boolean onTouchEvent(MotionEvent event) {
         if (myCamera != null) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            	shutter();
+            //	shutter();
             }
         }
         return true;
