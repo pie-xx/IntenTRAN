@@ -1,0 +1,94 @@
+<html>
+<head>
+<script>
+function init(){
+	var scanresult = bcd.getBarcode();
+	setBarcode(scanresult);
+//	alert(scanresult);
+	document.getElementById("scanresult").innerHTML = scanresult;
+	
+	var MainTarget = bcd.getMainTarget();
+	document.getElementById("MainTargetBox").innerHTML = MainTarget;
+
+	mkTargetList();
+}
+
+function mkTargetList(){
+	var TargetList = bcd.getTargetList();
+	var TargetListArray = ListArray('target',TargetList);
+	var TargetListHtml="";
+	for( var n=0; n < TargetListArray.length; ++n ){
+		bcd.log(TargetList[n]);
+		var ip = getTagValue('ip',TargetListArray[n]);
+		TargetListHtml = TargetListHtml+"<button onclick='delTarget(\""+ip+"\")'>del</button> ";
+		TargetListHtml = TargetListHtml+"<b>"+getTagValue('name',TargetListArray[n])+"</b> ";
+		TargetListHtml = TargetListHtml+ip+"<br/>\n";
+	}
+	document.getElementById("TargetsBox").innerHTML = TargetListHtml;
+}
+function delTarget(ip){
+	bcd.delTarget(ip);
+	init();
+}
+//
+function barcode(){
+	setBarcode( bcd.scanBarcode() );
+	init();
+}
+function setBarcode(str){
+	var targetIp = getTagValue('ip',str);
+	var targetName = getTagValue('name',str);
+
+	bcd.addTarget(targetName, targetIp, "");
+	bcd.setMainTarget( targetIp );
+	bcd.http("http://"+targetIp+":8626/register",
+				"<target><hostname>"+bcd.getMyName()+"</hostname></target>");
+}
+
+//////////////////////////////////////////////////
+function ListArray( tag, list ){
+	var raws = list.split("<"+tag+">");
+	var listarray = new Array();
+	for( var n=1; n < raws.length; ++n ){
+		listarray.push(raws[n].split("</"+tag+">")[0])
+	}
+	return listarray;
+}
+function getTagValue(tag,str){
+	return str.split("<"+tag+">")[1].split("</"+tag+">")[0];
+}
+//////////////////////////////////////////////////
+function setMainTarget(){
+	var target = document.getElementById("MainTagetInput").value;
+	bcd.setMainTarget( target );
+	init();
+}
+
+</script>
+<style>
+body {margin:0;}
+</style>
+</head>
+
+<body onLoad="init();">
+
+<table style="margin:0;padding:8px;background-color:lightyellow;width:100%">
+<tr>
+<td><img src="file:///android_asset/intentran128.png" height="64"/></td>
+<td><div style="font-size:48px">Barcode Setting</div></td>
+</tr>
+</table>
+<div id="scanresult"></div>
+<div style="background-color:lightyellow;margin:0;padding:8px;">
+	
+	<h2>Target Hosts</h2>
+	<div id="TargetsBox"></div>
+
+	<h2>Main Target is <span id='MainTargetBox'></span></h2>
+	<input id="MainTagetInput" size="20"/>
+	<button onclick="setMainTarget()">set MainTarget</button>
+
+</div>
+
+</body>
+</html>

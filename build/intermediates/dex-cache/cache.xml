@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\pie\AndroidstudioProjects\IntenTRAN\app\libs\core.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="69ab751723c7f7c8a01fddb1d169a93160fadca7">
+        <dex dex="C:\Users\pie\AndroidstudioProjects\IntenTRAN\app\build\intermediates\pre-dexed\debug\core-8b5a38f05ea02e38892da0b27362c76866007554.jar" />
+    </item>
+    <item
+        jar="C:\Users\pie\AndroidstudioProjects\IntenTRAN\app\libs\javase.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="781e45c7b4ce95e620e943338725f8b2aa47abc7">
+        <dex dex="C:\Users\pie\AndroidstudioProjects\IntenTRAN\app\build\intermediates\pre-dexed\debug\javase-453bcde62337e768ea7aa48caefe1a3933bc51fe.jar" />
+    </item>
+
+</items>

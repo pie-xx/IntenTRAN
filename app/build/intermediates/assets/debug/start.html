@@ -1,0 +1,155 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+<head>
+<script>
+function init(){
+	mkBodyTitle();
+	mkTargetList();
+}
+function dispDir(){
+	if( airi.getItem('Pushdir')=='top' ){
+		document.getElementById("pushdir").innerHTML='△';
+	}else{
+		document.getElementById("pushdir").innerHTML='▼';
+	}
+}
+function chgDir(){
+	if( airi.getItem('Pushdir')=='top' ){
+		airi.setItem('Pushdir','bottom');
+	}else{
+		airi.setItem('Pushdir','top');
+	}
+	init();
+}
+function mkBodyTitle(){
+	var cbody = airi.getSharedBody();
+	if(cbody!=""){
+	cbody = cbody.replace(/(h?)(ttps?:\S+)/gi,"<a href='h$2'>h$2</a>");
+	if(cbody.match(/^content:/)!=null){
+		cbody = "<a href='http://localhost:8626/file/"+cbody+"'>"+cbody+"</a>";
+	}
+	cbody = cbody.replace(/$/gm,"<br/>\n");
+
+	var links = cbody.split(/<\/a>/);
+	var images = "";
+	for( var n=0; n < links.length; ++n ){
+		var url = links[n].split(/<a/)[1];
+		if( url!= undefined ){
+			url = url.split(/>/)[1];
+			if(url.match(/(\.jpg|\.png|\.gif)$/)!=null){
+				images = images + "<a href='"+url+"'>"+
+					"<img src='"+url+"' width='100%'/></a>";
+			}
+			if(url.match(/^content:/)!=null){
+				images = images + "<a href='/file/"+url+"'>"+
+					"<img src='/file/"+url+"' width='100%'/></a>";
+			}
+		}
+	}
+
+	document.getElementById("cbody").innerHTML = cbody+"<br/><br/>"+images;
+
+	var ctitle = airi.getSharedTitle();
+	document.getElementById("ctitle").innerHTML = airi.getSharedAction()+": "+ctitle;
+
+	pushStack(0);
+	}
+	document.getElementById("stack").innerHTML = airi.getItem('Stack');
+	document.getElementById("cbody").innerHTML = "";
+}
+function mkTargetList(){
+	var TargetList = airi.getTargetList();
+	var TargetListArray = ListArray('target',TargetList);
+	var TargetListHtml="";
+	for( var n=0; n < TargetListArray.length; ++n ){
+		var ip = getTagValue('ip',TargetListArray[n]);
+		TargetListHtml = TargetListHtml+"<b>"+getTagValue('name',TargetListArray[n])+"</b> ";
+		TargetListHtml = TargetListHtml+ip;
+		TargetListHtml = TargetListHtml+"<button onclick='sendTarget(\""+ip+"\")'>send</button><br/>\n";
+	}
+	document.getElementById("TargetsBox").innerHTML = TargetListHtml;
+}
+function sendTarget(ip){
+	airi.http("http://"+ip+":8626/"+airi.getSharedAction(),airi.getSharedHttp());
+	init();
+}
+function savePushdir(){
+	alert(document.getElementById("pushdir").value);
+	airi.setItem('Pushdir',document.getElementById("pushdir").value);
+}
+function pushStack(dir){
+//	var lastIntent = airi.getItem('LastIntent');
+//	if( lastIntent!=airi.getSharedHttp() ){
+		var stack = airi.getItem('Stack');
+		var sid = new Date().getTime();
+		var newitem = "<div class='stacks' id='"+sid+"'>"
+						+"<button onClick='rmstack("+sid+")'> x </button>"
+						+"<h3>"+document.getElementById("ctitle").innerHTML+"</h3><br/>"
+						+document.getElementById("cbody").innerHTML+"</div>\n";
+		if( dir==0 ){
+			airi.setItem('Stack',newitem+stack);;
+		}else{
+			airi.setItem('Stack',stack+newitem);
+		}
+
+		document.getElementById("stack").innerHTML = stack;
+//	}
+//	airi.setItem('LastIntent',airi.getSharedHttp());
+//	init();
+	airi.clearSharedBody();
+}
+function rmstack(sid){
+	if(confirm('Delete this?')){
+	var snode = document.getElementById(sid);
+	snode.parentNode.removeChild(snode);
+	airi.setItem('Stack',document.getElementById("stack").innerHTML);
+	}
+}
+function clearStack(){
+	airi.setItem('Stack','');;
+	init();
+}
+//////////////////////////////////////////////////
+function ListArray( tag, list ){
+	var raws = list.split("<"+tag+">");
+	var listarray = new Array();
+	for( var n=1; n < raws.length; ++n ){
+		listarray.push(raws[n].split("</"+tag+">")[0])
+	}
+	return listarray;
+}
+function getTagValue(tag,str){
+	return str.split("<"+tag+">")[1].split("</"+tag+">")[0];
+}
+//////////////////////////////////////////////////
+</script>
+<style>
+body {margin:0;}
+.cbox {margin:0;padding:8px;}
+</style>
+</head>
+
+<body onload="init()">
+<!--
+<button onclick="pushStack(1)">▼push stack</button>
+<button onclick="pushStack(0)">△push stack</button>
+-->
+<table>
+<tr>
+<td><img src="file:///android_asset/intentran128.png" height="64"/></td>
+<td><div style="font-size:48px">IntenTRAN</div></td>
+</tr>
+</table>
+
+<div class="cbox" id="TargetsBox"></div>
+<h2 class="cbox" id='ctitle' style="background-color:lightblue;"></h2>
+<div class="cbox" id="cbody" style="background-color:lightyellow;"></div>
+<hr/>
+
+<div class="cbox">
+<div id="stack"></div>
+
+<button onclick="clearStack()">clear all</button>
+</div>
+</body>
+</html>

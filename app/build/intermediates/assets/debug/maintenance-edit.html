@@ -1,0 +1,56 @@
+<html>
+<head>
+<script language="javascript">
+//------------------------
+var idBox;
+var dtclassBox;
+var titleBox;
+var bodyBox;
+
+function initpage() {
+  titleBox = document.getElementById("title");
+  bodyBox = document.getElementById("body");
+
+  var key = airi.getPageParam();
+  if(key==''){
+  bodyBox.value = airi.assetlist();
+  }else{
+  titleBox.value = key;
+  bodyBox.value = airi.getItem(key);
+  }
+}
+
+function insertData() {
+	airi.setItem( titleBox.value, bodyBox.value );
+	airi.restart();
+}
+
+function cancelreturn(){
+	airi.restart();
+}
+function load(){
+	var fname = document.getElementById("title").value;
+	document.getElementById("body").value = airi.getItem(fname);
+}
+function putfile(fname){
+  titleBox.value = fname;
+  bodyBox.value = airi.getItem(fname);
+	document.getElementById('getlist').setAttribute('style','display:none;');
+}
+</script>
+<style type="text/css">
+textarea {
+	width:100%;
+	height:85%;
+}
+</style>
+</head>
+<body onLoad="initpage()">
+title <input id="title" size="16"/>
+<button onclick="load()">load()</button><br/>
+<div id="getlist"></div>
+<textarea id="body" cols="32" rows="18"></textarea><br/>
+<button onClick="insertData()">send</button>
+<button onClick="cancelreturn()">cancel</button>
+</body>
+</html>

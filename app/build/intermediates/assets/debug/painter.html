@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>シンプルペイント</title>
+		<link rel="stylesheet" href="css/main.css" type="text/css" media="all">
+<script type="text/javascript">
+var drawFlag = false;
+var oldX = 0;
+var oldY = 0;
+window.addEventListener("load", function(){
+	var can = document.getElementById("myCanvas");
+	can.addEventListener("mousemove", function(e){
+			airi.log("mouseMove "+e.clientX+","+e.clientY);
+		if (!drawFlag) return;
+		var x = e.clientX;
+		var y = e.clientY;
+		var can = document.getElementById("myCanvas");
+		var context = can.getContext("2d");
+		context.strokeStyle = "rgba(0,0,0,1)";
+		context.lineWidth = 3;
+		context.beginPath();
+		context.moveTo(oldX, oldY);
+		context.lineTo(x, y);
+		context.closePath();
+		context.stroke();
+		oldX = x;
+		oldY = y;
+	}, true);
+	can.addEventListener("mousedown", function(e){
+		drawFlag = true;
+		oldX = e.clientX;
+		oldY = e.clientY;
+			airi.log("mouseDown "+e.clientX+","+e.clientY);
+	}, true);
+	can.addEventListener("mouseup", function(){
+		drawFlag = false;
+			airi.log("mouseUp "+e.clientX+","+e.clientY);
+	}, true);
+}, true);
+// 描画処理
+function draw(e){
+}
+// 保存処理　(Canvas2Image)
+//　http://www.nihilogic.dk/labs/canvas2image/
+function saveData(){
+	var can = document.getElementById("myCanvas");
+	var d = can.toDataURL('image/png');
+	alert(d);
+}
+function callback(str){
+	alert("callback "+str);
+}
+</script>
+	</head>
+	<body>
+	<canvas id="myCanvas" width="320" height="480">
+		HTML 5　Canvasに対応したブラウザを使用してください。
+	</canvas>
+	<div id="menu">
+		<button onclick="saveData()">保存</button>
+	</div>
+</body>
+</html>

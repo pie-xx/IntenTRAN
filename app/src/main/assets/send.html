@@ -1,0 +1,23 @@
+<html>
+<head>
+<script>
+function init(){
+	var cbody = airi.getSharedBody();
+	airi.setClip( cbody );
+	cbody = cbody.replace(/(h?ttps?:\S+)/gi,"<a href='$1'>$1</a>");
+	cbody = cbody.replace(/$/gm,"<br/>\n");
+	document.getElementById("cbody").innerHTML = cbody;
+
+	var ctitle = airi.getSharedTitle();
+	document.getElementById("ctitle").innerHTML = ctitle;
+}
+</script>
+</head>
+
+<body onload="init()">
+<h1>shared</h1>
+<h2 id='ctitle'></h2>
+<div id="cbody"></div>
+<div id="content"></div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<html>
+<head>
+<script language="javascript">
+function init(){
+  initpage();
+}
+function test(){
+	airi.setPageItem("twitter/Twitter.html");
+}
+//------------------------
+function initpage() {
+	var liststr = "<table>";
+	var limit = airi.length();
+	for( n = 0; n < limit; ++n ) {
+	    var key = airi.key( n );
+		liststr = liststr + "<tr>";
+		liststr = liststr + "<td><button onClick='remove(\""+key+"\")'>rm</button></td>";
+		liststr = liststr + "<td>"+key+"</td>";
+		liststr = liststr + "<td><button onClick='jumptoedit(\""+key+"\")'>edit</button></td>";
+		liststr = liststr + "<td><button onClick='jumptopage(\""+key+"\")'>disp</button></td>";
+		liststr = liststr + "</tr>";
+	}
+	liststr = liststr + "</table>";
+
+	document.getElementById("listbox").innerHTML = liststr;
+
+	airi.setKeyMenu("back", "maintenance.html");
+}
+
+function resetDB() {
+	if( confirm("Reset DB?") ){
+		airi.resetDB();
+	}
+	initpage();
+}
+
+function remove( key ) {
+	if( confirm("remove '"+key+"'?") ){
+		airi.removeItem( key );
+		initpage();
+	}
+}
+
+function jumptoedit( key ) {
+	airi.setPageItem("maintenance-edit.html", key);
+}
+
+function jumptopage( key ) {
+	if( confirm("jump to '"+key+"'?") )
+		airi.setPageItem(key);
+}
+
+</script>
+
+<body onLoad="init()">
+<button onclick="jumptoedit('')">new</button><br/>
+<div id="listbox"></div>
+<div id="resultbox"></div>
+
+</body>
+</html>

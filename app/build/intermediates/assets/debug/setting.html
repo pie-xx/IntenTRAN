@@ -1,0 +1,185 @@
+<html>
+<head>
+<script>
+function init(){
+	if( airi.getBarcode() ){
+		setBarcode(airi.getBarcode());
+	}
+
+	document.getElementById("ShowMode").innerHTML = airi.getShowMode();
+
+	document.getElementById("SendMode").innerHTML = airi.getSendMode();
+	// é©ï™ÇÃIPàÍóóçÏê¨
+	var MyIP = new String(airi.getMyIP());
+	var IPList = new String(airi.getIPList());
+	var IPListArray = ListArray('iplist',IPList);
+	var IPLHtml="";
+	for( var n=0; n < IPListArray.length; ++n ){
+		airi.log(IPListArray[n]);
+		var netip = getTagValue('ip',IPListArray[n]);
+		var flagL = "";
+		var flagR = "";
+		if( (netip)==MyIP ){
+			flagL = "<b>[";
+			flagR = "]</b>";
+		}
+		IPLHtml=IPLHtml+"<b>"+getTagValue('net',IPListArray[n])+"</b> "+
+				flagL+netip+flagR+
+				"<button onclick='setMyIP(\""+ netip +"\")'>set</button><br/>\n";
+	}
+	document.getElementById("MyAddrBox").innerHTML = IPLHtml;
+
+	var MyName = airi.getMyName();
+	document.getElementById("MyNameInput").value = MyName;
+	document.getElementById("MyNameBox").innerHTML = MyName;
+
+	if( MyIP=="" ){
+		airi.setMyIP(getTagValue('ip',IPListArray[0]));
+		MyIP = airi.getMyIP();
+	}
+	document.getElementById("MyIPBox").innerHTML = MyIP;
+
+	var MainTarget = airi.getMainTarget();
+	document.getElementById("MainTargetBox").innerHTML = MainTarget;
+
+	mkTargetList();
+	// QRÉ`ÉÉÅ[Ég
+//	var qrsrc = "http://chart.apis.google.com/chart?cht=qr&chs=200x200&chl=<mydata><ip>"+
+	var qrsrc = "/qrcode?s=<mydata><ip>"+
+		MyIP+"<ip><name>"+MyName+"</name></mydata>";
+	document.getElementById("QRIMG").setAttribute('src',qrsrc);
+	document.getElementById("QRIMG2").innerHTML=qrsrc;
+}
+
+function mkTargetList(){
+	var TargetList = airi.getTargetList();
+	var TargetListArray = ListArray('target',TargetList);
+	var TargetListHtml="";
+	for( var n=0; n < TargetListArray.length; ++n ){
+		airi.log(TargetList[n]);
+		var ip = getTagValue('ip',TargetListArray[n]);
+		TargetListHtml = TargetListHtml+"<button onclick='delTarget(\""+ip+"\")'>del</button> ";
+		TargetListHtml = TargetListHtml+"<b>"+getTagValue('name',TargetListArray[n])+"</b> ";
+		TargetListHtml = TargetListHtml+ip+"<br/>\n";
+	}
+	document.getElementById("TargetsBox").innerHTML = TargetListHtml;
+}
+function delTarget(ip){
+	airi.delTarget(ip);
+	init();
+}
+//
+function barcode(){
+	setBarcode( airi.scanBarcode() );
+	init();
+}
+function setBarcode(str){
+	var targetIp = getTagValue('ip',str);
+	var targetName = getTagValue('name',str);
+
+	airi.addTarget(targetName, targetIp, "");
+	airi.setMainTarget( targetIp );
+	airi.http("http://"+targetIp+":8626/register",
+				"<target><hostname>"+airi.getMyName()+"</hostname></target>");
+}
+
+//////////////////////////////////////////////////
+function ListArray( tag, list ){
+	var raws = list.split("<"+tag+">");
+	var listarray = new Array();
+	for( var n=1; n < raws.length; ++n ){
+		listarray.push(raws[n].split("</"+tag+">")[0])
+	}
+	return listarray;
+}
+function getTagValue(tag,str){
+	return str.split("<"+tag+">")[1].split("</"+tag+">")[0];
+}
+//////////////////////////////////////////////////
+function setMainTarget(){
+	var target = document.getElementById("MainTagetInput").value;
+	airi.setMainTarget( target );
+	init();
+}
+function setMyName(){
+	var target = document.getElementById("MyNameInput").value;
+	airi.setMyName( target );
+	init();
+}
+function setSendMode(mode){
+	airi.setSendMode(mode);
+	init();
+}
+function setShowMode(mode){
+	airi.setShowMode(mode);
+	init();
+}
+function setMyIP(ipstr){
+	airi.setMyIP(ipstr);
+	init();
+}
+</script>
+<style>
+body {margin:0;}
+</style>
+</head>
+
+<body onLoad="init();">
+
+<table style="margin:0;padding:8px;background-color:lightyellow;width:100%">
+<tr>
+<td><img src="file:///android_asset/intentran128.png" height="64"/></td>
+<td><div style="font-size:48px">Setting</div></td>
+</tr>
+</table>
+
+<div style="margin:0;padding:8px;">
+	<button onclick='barcode();'>scanBarcode</button><br/>
+	<img id="QRIMG" align="left"/>
+	<b><span id='MyNameBox'></span></b><br/>
+	<div id='MyIPBox'></div>
+	<div id="QRIMG2" ></div>
+	<br clear="all"/>
+</div>
+
+<div style="background-color:lightblue;margin:0;padding:8px;">
+
+	<h2>Access Mode</h2>
+	<table>
+	<tr><td><div id="SendMode"></div></td>
+	<td>
+	<button onclick="setSendMode('active')">Active</button>
+	<button onclick="setSendMode('passive')">Passive</button>
+	<button onclick="setSendMode('self')">Self</button>
+	</td></tr>
+	</table>
+	<h2>Show Mode</h2>
+	<table>
+	<tr><td><div id="ShowMode"></div></td>
+	<td>
+	<button onclick="setShowMode('direct')">Direct</button>
+	<button onclick="setShowMode('self')">Self</button>
+	</td></tr>
+	</table>
+
+	<h2>My Networks</h2>
+	<div id="MyAddrBox"></div>
+
+	<input id="MyNameInput" size="20"/>
+	<button onclick="setMyName()">set MyName</button>
+
+</div>
+
+<div style="background-color:lightyellow;margin:0;padding:8px;">
+	
+	<h2>Target Hosts</h2>
+	<div id="TargetsBox"></div>
+
+	<h2>Main Target is <span id='MainTargetBox'></span></h2>
+	<input id="MainTagetInput" size="20"/>
+	<button onclick="setMainTarget()">set MainTarget</button>
+
+</div>
+
+</body>
+</html>

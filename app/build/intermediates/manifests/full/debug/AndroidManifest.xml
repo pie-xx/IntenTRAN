@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.m_obj.mdswbrowser"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="5" />
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:description="@string/app_name"
+        android:enabled="true"
+        android:icon="@drawable/intentran128"
+        android:label="@string/app_name" >
+        <activity
+            android:name="com.m_obj.mdswbrowser.AIRi"
+            android:label="@string/app_name"
+            android:screenOrientation="sensor" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/*" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/*" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="http" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.m_obj.mdswbrowser.BarcodeScannerActivity"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.m_obj.mdswbrowser.BarcodeSettingActivity" >
+        </activity>
+        <activity
+            android:name="com.m_obj.mdswbrowser.PicMonActivity"
+            android:label="Intentran(Camera)"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.media.action.IMAGE_CAPTURE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <!--
+                category android:name="android.intent.category.OPENABLE" />
+				<data android:mimeType="image/*"/
+                -->
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.m_obj.mdswbrowser.SketchActivity"
+            android:label="Intentran(Sketch)"
+            android:screenOrientation="sensor" >
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.media.action.IMAGE_CAPTURE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <service android:name="com.m_obj.mdswbrowser.PieHTTPservice" />
+
+        <receiver
+            android:name="com.m_obj.mdswbrowser.LiveWiFiReceiver"
+            android:process=":remote" />
+        <receiver
+            android:name="com.m_obj.mdswbrowser.PieHttpReceiver"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.m_obj.mdswbrowser.PieHttpReceiver" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name="com.m_obj.mdswbrowser.AssetFileProvider"
+            android:authorities="com.m_obj.mdswbrowser.AssetFile" />
+    </application>
+
+</manifest>

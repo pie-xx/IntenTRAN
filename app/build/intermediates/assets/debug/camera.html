@@ -1,0 +1,79 @@
+<html>
+<head>
+<title>camera</title>
+<script>
+var nc=0;
+var inInterval = null;
+function startCap(){
+	var btn = document.getElementById('startbtn');
+	if(inInterval==null){
+		inInterval = setInterval("preview()", 200);
+		btn.innerHTML = "■ stop";
+	}else{
+		clearInterval(inInterval);
+		inInterval = null;
+		btn.innerHTML = "<span style='color:red;'>笆ｶ</span> start";
+	}
+}
+var inPreview = null;
+function startPreview(){
+	var btn = document.getElementById('startbtn');
+	if(inPreview==null){
+		btn.innerHTML = "■　stop";
+		loopreview();
+	}else{
+		clearTimeout(inPreview);
+		inPreview = null;
+		btn.innerHTML = "<span style='color:red;'>▶</span> start";
+	}
+}
+function cap() {
+	document.getElementById("LastCap").innerHTML = "Capturing...";
+	PostIt('/cap','',function(d){
+			document.getElementById("capfname").innerHTML = document.getElementById("capfname").innerHTML
+				+"<a target='_new' href='/pic/"+d.responseText+"'>"+d.responseText+"</a><br/>\n";
+			document.getElementById("LastCap").href = "/pic/"+d.responseText;
+			document.getElementById("LastCap").innerHTML = "LastCap";
+		});
+}
+function preview() {
+	document.getElementById('pvimg').src = "/preview?nc="+nc;
+	nc=nc+1;
+}
+function afocus() {
+	document.getElementById('pvimg').src = "/focus?nc="+nc;
+	nc=nc+1;
+}
+function loopreview() {
+	document.getElementById('pvimg').src = "/preview?nc="+nc;
+	nc=nc+1;
+	inPreview = setTimeout("loopreview()", 100);
+}
+function PostIt( url, data, func ){
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState==4&&xhr.status==200){
+			if( func != null )
+				func(xhr);
+		}
+	}
+	xhr.open('POST',url);
+	xhr.send(data);
+}
+</script>
+</head>
+<body>
+<h1>cap.html</h1>
+<button id="startbtn" onClick="startPreview()"><span style='color:red;'>笆ｶ</span> start</button>
+<button onClick="preview()">preview</button>
+<button onClick="afocus()">focus</button>
+<br/>
+<button onClick="cap()" width="10%">Cap</button>
+<a href="" id="LastCap" target="_new">LastCap</a>
+<br/>
+<img id="pvimg" width="100%"/>
+<div id="capfname"></div>
+
+<img id="capimg"/>
+</body>
+</html>

@@ -1,0 +1,164 @@
+-- Merging decision tree log ---
+manifest
+ADDED from AndroidManifest.xml:2:1
+	xmlns:android
+		ADDED from AndroidManifest.xml:2:11
+	package
+		ADDED from AndroidManifest.xml:4:33
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:versionName
+		ADDED from AndroidManifest.xml:4:7
+	android:versionCode
+		ADDED from AndroidManifest.xml:3:7
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from AndroidManifest.xml:5:2
+	android:name
+		ADDED from AndroidManifest.xml:5:19
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from AndroidManifest.xml:6:2
+	android:name
+		ADDED from AndroidManifest.xml:6:19
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from AndroidManifest.xml:7:2
+	android:name
+		ADDED from AndroidManifest.xml:7:19
+uses-permission#android.permission.CAMERA
+ADDED from AndroidManifest.xml:8:2
+	android:name
+		ADDED from AndroidManifest.xml:8:19
+application
+ADDED from AndroidManifest.xml:9:2
+	android:label
+		ADDED from AndroidManifest.xml:9:53
+	android:icon
+		ADDED from AndroidManifest.xml:9:15
+	android:description
+		ADDED from AndroidManifest.xml:9:109
+	android:enabled
+		ADDED from AndroidManifest.xml:9:86
+activity#com.m_obj.mdswbrowser.AIRi
+ADDED from AndroidManifest.xml:10:3
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:12:19
+	android:label
+		ADDED from AndroidManifest.xml:11:19
+	android:name
+		ADDED from AndroidManifest.xml:10:13
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:13:4
+action#android.intent.action.MAIN
+ADDED from AndroidManifest.xml:14:17
+	android:name
+		ADDED from AndroidManifest.xml:14:25
+category#android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:15:17
+	android:name
+		ADDED from AndroidManifest.xml:15:27
+intent-filter#android.intent.action.VIEW+android.intent.category.DEFAULT
+ADDED from AndroidManifest.xml:17:4
+action#android.intent.action.VIEW
+ADDED from AndroidManifest.xml:18:14
+	android:name
+		ADDED from AndroidManifest.xml:18:22
+category#android.intent.category.DEFAULT
+ADDED from AndroidManifest.xml:19:14
+	android:name
+		ADDED from AndroidManifest.xml:19:24
+data
+ADDED from AndroidManifest.xml:20:5
+	android:mimeType
+		ADDED from AndroidManifest.xml:20:11
+intent-filter#android.intent.action.SEND+android.intent.category.DEFAULT
+ADDED from AndroidManifest.xml:23:13
+action#android.intent.action.SEND
+ADDED from AndroidManifest.xml:24:5
+	android:name
+		ADDED from AndroidManifest.xml:24:13
+activity#com.m_obj.mdswbrowser.BarcodeScannerActivity
+ADDED from AndroidManifest.xml:40:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:41:14
+	android:name
+		ADDED from AndroidManifest.xml:40:19
+intent-filter#android.intent.action.GET_CONTENT
+ADDED from AndroidManifest.xml:42:7
+action#android.intent.action.GET_CONTENT
+ADDED from AndroidManifest.xml:43:5
+	android:name
+		ADDED from AndroidManifest.xml:43:13
+activity#com.m_obj.mdswbrowser.BarcodeSettingActivity
+ADDED from AndroidManifest.xml:47:3
+	android:name
+		ADDED from AndroidManifest.xml:47:13
+activity#com.m_obj.mdswbrowser.PicMonActivity
+ADDED from AndroidManifest.xml:49:3
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:50:38
+	android:label
+		ADDED from AndroidManifest.xml:50:4
+	android:name
+		ADDED from AndroidManifest.xml:49:13
+intent-filter#android.intent.action.GET_CONTENT+android.intent.category.DEFAULT+android.intent.category.OPENABLE
+ADDED from AndroidManifest.xml:51:7
+category#android.intent.category.OPENABLE
+ADDED from AndroidManifest.xml:54:5
+	android:name
+		ADDED from AndroidManifest.xml:54:15
+intent-filter#android.intent.category.DEFAULT+android.media.action.IMAGE_CAPTURE
+ADDED from AndroidManifest.xml:57:4
+action#android.media.action.IMAGE_CAPTURE
+ADDED from AndroidManifest.xml:58:5
+	android:name
+		ADDED from AndroidManifest.xml:58:13
+activity#com.m_obj.mdswbrowser.SketchActivity
+ADDED from AndroidManifest.xml:64:3
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:66:4
+	android:label
+		ADDED from AndroidManifest.xml:65:4
+	android:name
+		ADDED from AndroidManifest.xml:64:13
+service#com.m_obj.mdswbrowser.PieHTTPservice
+ADDED from AndroidManifest.xml:78:9
+	android:name
+		ADDED from AndroidManifest.xml:78:18
+receiver#com.m_obj.mdswbrowser.LiveWiFiReceiver
+ADDED from AndroidManifest.xml:79:3
+	android:process
+		ADDED from AndroidManifest.xml:79:46
+	android:name
+		ADDED from AndroidManifest.xml:79:13
+receiver#com.m_obj.mdswbrowser.PieHttpReceiver
+ADDED from AndroidManifest.xml:80:3
+	android:process
+		ADDED from AndroidManifest.xml:80:45
+	android:name
+		ADDED from AndroidManifest.xml:80:13
+intent-filter#com.m_obj.mdswbrowser.PieHttpReceiver
+ADDED from AndroidManifest.xml:81:13
+action#com.m_obj.mdswbrowser.PieHttpReceiver
+ADDED from AndroidManifest.xml:82:17
+	android:name
+		ADDED from AndroidManifest.xml:82:25
+provider#com.m_obj.mdswbrowser.AssetFileProvider
+ADDED from AndroidManifest.xml:85:4
+	android:authorities
+		ADDED from AndroidManifest.xml:85:69
+	android:name
+		ADDED from AndroidManifest.xml:85:14
+uses-permission#android.permission.INTERNET
+ADDED from AndroidManifest.xml:88:2
+	android:name
+		ADDED from AndroidManifest.xml:88:19
+uses-sdk
+ADDED from AndroidManifest.xml:89:4
+	android:targetSdkVersion
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:minSdkVersion
+		ADDED from AndroidManifest.xml:89:14
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0

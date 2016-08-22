@@ -1,0 +1,22 @@
+<html>
+<head>
+<script>
+function init(){
+	var url = airi.getSharedBody();
+	airi.setClip( url );
+	document.getElementById("link").innerHTML = "<a href='"+url+"'>"+url+"</a>";
+	if(url.match(/(\.jpg|\.png|\.gif)$/)!=null){
+		document.getElementById("image").src = url;
+	}else{
+		location.href=url;
+	}
+}
+</script>
+</head>
+
+<body onload="init()">
+<h1>View</h1>
+<div id="link"></div>
+<img id="image" width="100%"/>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+<head>
+<style>
+#lastintent { display:none; }
+</style>
+<script>
+function init(){
+	var content = document.getElementById("lastintent").innerHTML;
+	var cbody = getTagValue('android.intent.extra.text',content);
+	if(cbody==""){
+		var curl = getTagValue('android.intent.extra.stream',content);
+		cbody = "<a href='/file/"+curl+"'>"+curl+"</a><br/>"+
+					"<img src='/file/"+curl+"'/>";
+		document.getElementById("cbody").innerHTML = cbody;
+	}else{
+		cbody = cbody.replace(/(h?)(ttps?:\S+)/gi,"<a href='h$2'>h$2</a>");
+		cbody = cbody.replace(/$/gm,"<br/>\n");
+
+		var links = cbody.split(/<\/a>/);
+		var images = "";
+		for( var n=0; n < links.length; ++n ){
+			var url = links[n].split(/<a/)[1];
+			if( url!= undefined ){
+				url = url.split(/>/)[1];
+				if(url.match(/(\.jpg|\.png|\.gif)$/)!=null){
+					images = images + "<a href='"+url+"'>"+
+						"<img src='"+url+"' width='100%'/></a>";
+				}
+			}
+		}
+		document.getElementById("cbody").innerHTML = cbody+images;
+	}
+
+
+	var ctitle = getTagValue('android.intent.extra.subject',content);
+	document.getElementById("ctitle").innerHTML = ctitle;
+
+	var url = getTagValue('ds',content);
+	document.getElementById("link").innerHTML = "<a href='"+url+"'>"+url+"</a>";
+	if(url.match(/.jpg/)!=null){
+		document.getElementById("image").src = url;
+	}
+	PostIt('/item/Stack',"",function(d){
+		document.getElementById("stack").innerHTML = d.responseText;
+	});
+}
+function barcode(){
+	PostIt('/barcode','',function(d){
+			document.getElementById("barcode").innerHTML = getTagValue('SCAN_RESULT',d.responseText);
+		});
+}
+function ViewIt(){
+	PostIt("/view","<data><action>view</action><url>"+document.getElementById("URLBOX").value+"</url></data>");
+}
+//////////////////////////////////////////////////////
+function PostIt( url, data, func ){
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState==4&&xhr.status==200){
+			if( func != null )
+				func(xhr);
+		}
+	}
+	xhr.open('POST',url);
+	xhr.send(data);
+}
+function getTagValue(tag,str){
+	var tags = str.split("<"+tag+">");
+	if(tags.length<2)
+		return "";
+	return tags[1].split("</"+tag+">")[0];
+}
+</script>
+</head>
+
+<body onload="init()">
+<h1>menu</h1>
+	<input id="URLBOX" size="40"/>
+	<button onclick="ViewIt()">ViewIt</button><br/>
+<button onclick="barcode()">scan barcode</button><br/>
+<div id="barcode"></div>
+<h2 id='ctitle'></h2>
+<div id="link"></div>
+<img id="image"/>
+<div id="cbody"></div>
+<div id="lastintent">#LastIntent#</div>
+<div id="stack"></div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<html>
+<body>
+<pre>
+menu
+	外部からアクセスされたときのメイン表示画面
+get
+	最後に発生したIntent内容を返す
+favicon.ico
+	外部提供用アイコンイメージを返す
+barcode
+	バーコードリーダーを起動して取得したコードを返す
+qrcode?s=
+	バラメータで指定された文字列をQRコードイメージ化して返す
+item/
+	assetやdb内のリソース内容を返す
+file/
+	ファイルの内容を返す
+pic/
+	capしたファイル画像を返す
+preview
+	プレビュー画像(画面イメージ)を返す
+focus
+	オートフォーカスを作動してから、プレビュー画像を返す
+cap
+	オートフォーカスを作動してから、カメラ撮影した画像を返す
+	撮影された画像は capfolder に書かれたディレクトリに順に格納される
+camera.html
+	カメラ用ページを返す
+
+getcaplist
+	キャプチャーファイル一覧
+rmcap?f=
+	指定されたファイルを消去
+mput?k=..&v=..
+	momoDBに値を書き込む
+mget?k=
+	momoDBの値を取得
+
+
+以下はAndroid側を制御して、応答はコマンドのオウム返し
+view
+	view Intentを発生。パラメータはエンティティボディにXMLテキストで
+send
+	send Intentを発生。パラメータはエンティティボディにXMLテキストで
+putfile
+	ファイルを書き込む
+paint
+	お絵かき画面にする
+register
+	intent共有先リストへ登録
+
+☆外部HTTP操作用
+camera.html
+	リモートカメラ操作ページ
+man.html
+	マニュアル。このページ。
+menu.html
+	外部からHTTP接続したときのルートページ
+
+☆内部操作用
+setting.html
+	セッティングメニュー
+start.html
+	内部メインルーチン
+</pre>
+</body>
+</html>
